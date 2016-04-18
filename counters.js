@@ -1,4 +1,5 @@
-var urlGeneric = 'https://transparencia.sns.gov.pt/api/records/1.0/search/?apikey=12ff0012d23b6a9210528d5fbbdab95f5680ec5ecf894f05c40e42b1&dataset=contadores-dinamicos';
+var urlGeneric = 'https://transparencia.sns.gov.pt/api/records/1.0/search/?apikey=12ff0012d23b6a9210528d5fbbdab95f5680ec5ecf894f05c40e42b1';
+var contador = '&dataset=contadores-dinamicos';
 var indicadoresTipoUm=[];
 var indicadoresTipoDois=[];
 var indicadoresTipoTres=[];
@@ -14,7 +15,7 @@ function loadIndicadores() {
 	$.ajax({ 
 	   type: "GET",
 	   dataType: "jsonp",
-	   url: urlGeneric,
+	   url: urlGeneric+contador,
 	   success: function(data){
 			var dataSetSize = data.records.length;
 			/**Separa os indicadores por tipo*/
