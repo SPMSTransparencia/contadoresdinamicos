@@ -135,16 +135,19 @@
 						var regiao = indicador.idIndicador.substring(0, 2);
 						if(regiao === regiaoSelecionada){
 							buildInidcador(indicador.idIndicador,indicador.titulo,indicador.mes+' de '+indicador.ano,indicador.descricao,indicador.fonte, indicador.value, '',indicador.greenMin,indicador.greenMax,indicador.redMin,indicador.redMax,'');	
-						}else{
+						}
+					}
+				}
+				/**Carrega as inativas**/
+				if('TD' != regiaoSelecionada){
+					for (var i = 0; i < dataSetSize; i++) {
+						var indicador = dataset[i];
+						var regiao = indicador.idIndicador.substring(0, 2);
+						if(regiao != regiaoSelecionada){
 							buildInidcador(indicador.idIndicador,indicador.titulo,indicador.mes+' de '+indicador.ano,indicador.descricao,indicador.fonte, indicador.value, '',indicador.greenMin,indicador.greenMax,indicador.redMin,indicador.redMax,'inative');	
 						}
 					}
 				}
-				var elem = $('#indicadores').find("div[name^='ALL_IND']").sort(sortMe);
-				$('#indicadores').append(elem);
-			}
-			function sortMe(a, b) {
-				return a.className > b.className;
 			}
 			
 			initDashboard();
