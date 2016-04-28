@@ -1,0 +1,157 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" href="https://transparencia.sns.gov.pt/static/compressed/css/3e021eb7b0ac.css" type="text/css" />
+		<style>
+			.inative {
+				opacity: 0.3;
+				filter: alpha(opacity=30);
+			}
+			.ods-catalog-card__body{
+				height: auto;
+			}
+			.gaugeSize {
+				width:120px;
+				height:120px;
+			}
+			.ods-catalog-card:hover {
+				cursor: initial;
+			}
+			.ods-catalog-card__wrapper:last-child
+			{
+				margin-bottom:0px;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+			google.charts.load('current', {'packages':['gauge']});
+			function drawChart(div, value, label, greenMin, greenMax, redMin , redMax) {
+
+				var data = google.visualization.arrayToDataTable([
+					['Label', 'Value'],
+					[label, value]
+					]);
+
+				var options = {
+					width: 120, height: 120,
+					greenFrom: greenMin, greenTo: greenMax,
+					redFrom: redMin, redTo: redMax,
+					max: redMax,minorTicks: 1
+				};
+
+				var chart = new google.visualization.Gauge(document.getElementById(div));
+
+				chart.draw(data, options);
+			}			
+			function buildInidcador(idIndicador,titulo,mesAno,descricao,fonte,value, label, greenMin, greenMax, redMin , redMax,inativeClass){
+				$('#indicadores').append( "<div id='"+idIndicador+"' name='ALL_IND' class='ods-catalog-card__wrapper "+inativeClass+"'>"
+				+"<div class='ods-catalog-card'>"
+				+"<div id='"+idIndicador+"_chart' class='gaugeSize'></div>"
+				+"<div class='ods-catalog-card__body ng-scope'>"
+				+"<a href='#' class='ods-catalog-card__title-link'>"
+				+"<h2 class='ods-catalog-card__title ng-binding'>"+titulo+"</h2>"
+				+"</a>"
+				+"<p class='ods-catalog-card__description ng-binding' style='font-weight:bold;'>"+mesAno+"</p>"
+				+"<p class='ods-catalog-card__description ng-binding'>"+descricao+"</p>"
+				+"<div class='ods-catalog-card__metadata ng-scope'>"
+				+"<div class='ods-catalog-card__metadata-item'>"
+				+"<div class='ods-catalog-card__metadata-item-label ng-binding'>Fonte</div>"
+				+"<div class='ods-catalog-card__metadata-item-value'>"
+				+"<span class='ng-binding ng-scope'>"+fonte+"</span>"
+				+"</div>"
+				+"</div>"
+				+"</div>"
+				+"</div>"
+				+"</div>"
+				+"</div>" );
+				google.charts.setOnLoadCallback(function() {drawChart(idIndicador+'_chart', value, label,greenMin,greenMax,redMin,redMax);});
+			}
+		</script>
+	</head>
+	<body>
+		<div style="width:100%;height:90px;background-color:#FFF; border:solid 1px #e5e5e5;border-radius:3px;margin-bottom:20px;">
+			<div >
+				<div style="float:left;display:inline-block;width:33%;padding-top:20px;padding-left:10px;">
+					<h3 class="ng-scope">Painel de Controlo</h3>
+					<p class="ng-scope">Ferramenta dinâmica em fase de expansão</p>
+				</div>
+				<div style="float:left;display:inline-block;width:33%;padding-top:20px;">
+					<label>Indicador</label>
+					<select>
+					  <option value="TD">Todos</option>
+					  <optgroup label="Consumo">
+						<option value="C_01"> Consumo de antidepressivos </option>
+						<option value="C_02"> Consumo de antidislipidémicos </option>
+					  </optgroup>
+					  <optgroup label="Mortalidade">
+						<option value="M_01"> Mortalidade abaixo dos 5 anos </option>
+						<option value="M_02"> Mortalidade abaixo dos 70 anos </option>
+						<option value="M_03"> Mortalidade Geral </option>
+						<option value="M_04"> Mortalidade Infantil </option>
+						<option value="M_05"> Mortalidade por acidentes de viação </option>
+					  </optgroup>				  
+					</select>
+				</div>
+				<div style="float:left;display:inline-block;width:33%;padding-top:20px;">
+					<label>Regiões</label>
+					<select id="regioes" >
+					  <option value="TD">Todas</option>
+					  <option value="PT">Portugal</option>
+					  <optgroup label="Regiões">
+						<option value="NT">Norte</option>
+						<option value="CT">Centro</option>
+						<option value="LB">Lisboa</option>
+						<option value="AT">Alentejo</option>
+						<option value="AG">Algarve</option>
+					  </optgroup>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div id="indicadores" class="ods-result-list odswidget-infinite-scroll-results" style="clear:both"></div>	
+		<script type="text/javascript">
+			var regiaoSelecionada = "TD";
+			$('#regioes').on('change', function() {
+				regiaoSelecionada = this.value;
+				initDashboard();
+			});
+			var dataset = [
+				{idIndicador:'NT_C_01', titulo:'Consumo de antidislipidémicos, no Norte', mes:'Janeiro',ano:'2016',descricao:'Consumo de antidislipidémicos, na região Norte.',fonte:'INSA',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
+				{idIndicador:'CT_C_01', titulo:'Consumo de antidislipidémicos, no Centro', mes:'Janeiro',ano:'2016',descricao:'Consumo de antidislipidémicos, na região Centro.',fonte:'INSA',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
+				{idIndicador:'LB_C_01', titulo:'Consumo de antidislipidémicos, em Lisboa e Vale do Tejo', mes:'Janeiro',ano:'2016',descricao:'Consumo de antidislipidémicos, na região Lisboa e Vale do Tejo.',fonte:'INSA',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
+				{idIndicador:'AT_C_01', titulo:'Consumo de antidislipidémicos, no Alentejo', mes:'Janeiro',ano:'2016',descricao:'Consumo de antidislipidémicos, na região Alentejana.',fonte:'INSA',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
+				{idIndicador:'AG_C_01', titulo:'Consumo de antidislipidémicos, no Algarve', mes:'Janeiro',ano:'2016',descricao:'Consumo de antidislipidémicos, na região Algarvia.',fonte:'INSA',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
+				{idIndicador:'PT_C_01', titulo:'Consumo de antidislipidémicos, em Portugal Continental', mes:'Janeiro',ano:'2016',descricao:'Consumo de antidislipidémicos, em Portugal Continental.',fonte:'INSA',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
+				]
+			function initDashboard(){
+				$( "#indicadores" ).empty();
+				var dataSetSize = dataset.length;
+				for (var i = 0; i < dataSetSize; i++) {
+					var indicador = dataset[i];
+					if('TD' === regiaoSelecionada){
+						buildInidcador(indicador.idIndicador,indicador.titulo,indicador.mes+' de '+indicador.ano,indicador.descricao,indicador.fonte, indicador.value, '',indicador.greenMin,indicador.greenMax,indicador.redMin,indicador.redMax,'');
+					}else{
+						var regiao = indicador.idIndicador.substring(0, 2);
+						if(regiao === regiaoSelecionada){
+							buildInidcador(indicador.idIndicador,indicador.titulo,indicador.mes+' de '+indicador.ano,indicador.descricao,indicador.fonte, indicador.value, '',indicador.greenMin,indicador.greenMax,indicador.redMin,indicador.redMax,'');	
+						}
+					}
+				}
+				/**Carrega as inativas**/
+				if('TD' != regiaoSelecionada){
+					for (var i = 0; i < dataSetSize; i++) {
+						var indicador = dataset[i];
+						var regiao = indicador.idIndicador.substring(0, 2);
+						if(regiao != regiaoSelecionada){
+							buildInidcador(indicador.idIndicador,indicador.titulo,indicador.mes+' de '+indicador.ano,indicador.descricao,indicador.fonte, indicador.value, '',indicador.greenMin,indicador.greenMax,indicador.redMin,indicador.redMax,'inative');	
+						}
+					}
+				}
+			}
+			
+			initDashboard();
+		</script>
+		
+	</body>
+</html>
