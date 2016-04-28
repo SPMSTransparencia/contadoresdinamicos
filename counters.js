@@ -1,5 +1,4 @@
-var urlGeneric = 'https://transparencia.sns.gov.pt/api/records/1.0/search/?apikey=12ff0012d23b6a9210528d5fbbdab95f5680ec5ecf894f05c40e42b1';
-var contador = '&dataset=contadores-dinamicos';
+var urlGeneric = 'https://transparencia.sns.gov.pt/api/records/1.0/search/?apikey=12ff0012d23b6a9210528d5fbbdab95f5680ec5ecf894f05c40e42b1&dataset=contadores-dinamicos';
 var indicadoresTipoUm=[];
 var indicadoresTipoDois=[];
 var indicadoresTipoTres=[];
@@ -8,20 +7,37 @@ var segundosPorDia = 86400;
 var idValue = '#cnt';
 var idUrl = '#url';
 var idLabel = '#lbl';
-var idContadorSNS = '01';
-
-/***Metodos genericos***/
 /**
-*Devolve o valor diario a incrementar com base no valor final do ano
-*/
-function getIncrementoDiario(valorBase){
-	var now = new Date();
-	var start = new Date(now.getFullYear(), 0, 0);
-	var final = new Date(now.getFullYear()+1, 0, 0);
-	var diff =  final - start;
-	var oneDay = 1000 * 60 * 60 * 24;
-	var day = Math.floor(diff / oneDay);
-	return Math.round((Math.abs(valorBase/day))* 100)/100;
+ * Carrega os indicadores por tipo
+ */
+function loadIndicadores() {
+	$.ajax({ 
+	   type: "GET",
+	   dataType: "jsonp",
+	   url: urlGeneric,
+	   success: function(data){
+			var dataSetSize = data.records.length;
+			/**Separa os indicadores por tipo*/
+			for (var i = 0; i < dataSetSize; i++) {
+				var indicador = data.records[i];
+				var tipoIndicador = indicador.fields.tipo;
+				if(tipoIndicador === 1){
+					indicadoresTipoUm.push(indicador);
+				} else if(tipoIndicador === 2){
+					indicadoresTipoDois.push(indicador);
+				} else if(tipoIndicador === 3){
+					indicadoresTipoTres.push(indicador);
+				} else if(tipoIndicador === 4){
+					indicadoresTipoQuatro.push(indicador);
+				}
+			}
+			/**Arranca os contadores por tipo*/	
+			getContador(indicadoresTipoUm);
+			getContador(indicadoresTipoDois);
+			getContador(indicadoresTipoTres);
+			getContador(indicadoresTipoQuatro);	
+			}
+	});
 }
 /**
  * Retorna um numero entre 0 (inclusive) e max (inclusive)
@@ -73,6 +89,38 @@ function getDataInicioAno(){
 	inicioDia.setSeconds(0);
 	inicioDia.setMilliseconds(0);
 	return inicioDia;
+}
+/**
+*Devolve o valor diario a incrementar com base no valor final do ano
+*/
+function getIncrementoDiario(valorBase){
+	var now = new Date();
+	var start = new Date(now.getFullYear(), 0, 0);
+	var final = new Date(now.getFullYear()+1, 0, 0);
+	var diff =  final - start;
+	var oneDay = 1000 * 60 * 60 * 24;
+	var day = Math.floor(diff / oneDay);
+	return Math.round((Math.abs(valorBase/day))* 100)/100;
+}
+/**
+*Pesquisa os indicadores para um tipo e escolhe um para apresentar na pagina
+*/
+function getContador(indicadores) {
+	var dataSetSize = indicadores.length;
+	var indexIndicador = getRandom(dataSetSize - 1);
+	if(isNumber(indexIndicador)){
+		var indicador = indicadores[indexIndicador].fields;
+		var valorBase = indicador.valor_base;
+		var incrementoDiario = indicador.incremento_diario;
+		var dataValorBase = indicador.data_valor_base;
+		var nomeIndicador = indicador.nome_indicador;
+		var unidadeMedida = indicador.unidade_medida;
+		var tempoAtualizacao = indicador.tempo_atualizacao;
+		var casasDecimais = indicador.casas_decimais;
+		var indUrl = indicador.url;
+		var idContador = '0'+indicador.tipo;
+		startCounter(valorBase,incrementoDiario,dataValorBase,nomeIndicador,indUrl,unidadeMedida,casasDecimais,tempoAtualizacao,idContador);
+	}
 }
 /**
 * funcao contador
@@ -145,98 +193,7 @@ function startCounter(valorBase,incrementoDiario,dataValorBase,nomeIndicador,ind
 		}		
 	}
 }
-/**Transparência**/
-/**
- * Carrega os indicadores por tipo para o portal transparencia
- */
-function loadIndicadoresTransparencia() {
-	$.ajax({ 
-	   type: "GET",
-	   dataType: "jsonp",
-	   url: urlGeneric + contador,
-	   success: function(data){
-			var dataSetSize = data.records.length;
-			/**Separa os indicadores por tipo*/
-			for (var i = 0; i < dataSetSize; i++) {
-				var indicador = data.records[i];
-				var tipoIndicador = indicador.fields.tipo;
-				if(tipoIndicador === 1){
-					indicadoresTipoUm.push(indicador);
-				} else if(tipoIndicador === 2){
-					indicadoresTipoDois.push(indicador);
-				} else if(tipoIndicador === 3){
-					indicadoresTipoTres.push(indicador);
-				} else if(tipoIndicador === 4){
-					indicadoresTipoQuatro.push(indicador);
-				}
-			}
-			/**Arranca os contadores por tipo*/	
-			getContadorTransparencia(indicadoresTipoUm);
-			getContadorTransparencia(indicadoresTipoDois);
-			getContadorTransparencia(indicadoresTipoTres);
-			getContadorTransparencia(indicadoresTipoQuatro);	
-			}
-	});
-}
-/**
-*Pesquisa os indicadores para um tipo e escolhe um para apresentar na pagina transparência
-*/
-function getContadorTransparencia(indicadores) {
-	var dataSetSize = indicadores.length;
-	var indexIndicador = getRandom(dataSetSize - 1);
-	if(isNumber(indexIndicador)){
-		var indicador = indicadores[indexIndicador].fields;
-		var valorBase = indicador.valor_base;
-		var incrementoDiario = indicador.incremento_diario;
-		var dataValorBase = indicador.data_valor_base;
-		var nomeIndicador = indicador.nome_indicador;
-		var unidadeMedida = indicador.unidade_medida;
-		var tempoAtualizacao = indicador.tempo_atualizacao;
-		var casasDecimais = indicador.casas_decimais;
-		var indUrl = indicador.url;
-		var idContador = '0'+indicador.tipo;
-		startCounter(valorBase,incrementoDiario,dataValorBase,nomeIndicador,indUrl,unidadeMedida,casasDecimais,tempoAtualizacao,idContador);
-	}
-}
-/**Inicia os contadores da Transparencia**/
-function initCountersTransparencia(){
-	loadIndicadoresTransparencia();
-}
-/**SNS**/
-/**
- * Carrega os indicadores por tipo para o portal SNS
- */
-function loadIndicadoresSNS() {
-	$.ajax({ 
-	   type: "GET",
-	   dataType: "jsonp",
-	   url: urlGeneric + contador,
-	   success: function(data){
-			/**Arranca os contadores por tipo*/	
-			getContadorSNS(data.records);
-		}
-	});
-}
-/**
-*Pesquisa os indicadores para um tipo e escolhe um para apresentar na pagina SNS
-*/
-function getContadorSNS(indicadores) {
-	var dataSetSize = indicadores.length;
-	var indexIndicador = getRandom(dataSetSize - 1);
-	if(isNumber(indexIndicador)){
-		var indicador = indicadores[indexIndicador].fields;
-		var valorBase = indicador.valor_base;
-		var incrementoDiario = indicador.incremento_diario;
-		var dataValorBase = indicador.data_valor_base;
-		var nomeIndicador = indicador.nome_indicador;
-		var unidadeMedida = indicador.unidade_medida;
-		var tempoAtualizacao = indicador.tempo_atualizacao;
-		var casasDecimais = indicador.casas_decimais;
-		var indUrl = indicador.url;
-		startCounter(valorBase,incrementoDiario,dataValorBase,nomeIndicador,indUrl,unidadeMedida,casasDecimais,tempoAtualizacao,idContadorSNS);
-	}
-}
-/**Inicia oo contador do SNS**/
-function initCountersSNS(){
-	loadIndicadoresSNS();
+
+function initCounters(){
+	loadIndicadores();
 }
