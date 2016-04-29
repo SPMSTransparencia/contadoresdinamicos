@@ -234,6 +234,14 @@
 			}
 			
 			initDashboard();
+			$( window ).load(function() {
+				/**Altera o verde**/
+				$( "path[fill='#109618']" ).css({ fill: "#5b3" });
+				/**Altera a fonte**/
+				$( "text[font-size=6]" ).css('font-size','10');
+				/**Altera o azul**/
+				$( "circle[fill='#4684ee']" ).css({ fill: "#FFF" });
+			});
 		</script>
 		
 	</body>
