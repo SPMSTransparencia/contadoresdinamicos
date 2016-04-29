@@ -119,12 +119,23 @@
 			$('#regioes').on('change', function() {
 				regiaoSelecionada = this.value;
 				initDashboard();
+				restyle();
 			});
 			
 			$('#indicadores').on('change', function() {
 				indicadorSelecionado = this.value;
 				initDashboard();
+				restyle();
 			});
+			
+			function restyle(){
+				/**Altera o verde**/
+				$( "path[fill='#109618']" ).css({ fill: "#5b3" });
+				/**Altera a fonte**/
+				$( "text[font-size=6]" ).css('font-size','10');
+				/**Altera o azul**/
+				$( "circle[fill='#4684ee']" ).css({ fill: "#FFF" });	
+			}
 			
 			var dataset = [
 					{idIndicador:'AT_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.3196,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
@@ -224,18 +235,26 @@
 						}
 					}
 				}
+				/**Carrega as inativas**/
+				/**if('TD' != regiaoSelecionada || 'TD' != indicadorSelecionado){
+					for (var i = 0; i < dataSetSize; i++) {
+						var data = dataset[i];
+						var regiao = data.idIndicador.substring(0, 2);
+						var indicador = data.idIndicador.substring(3, 7);
+						if(('TD' === regiaoSelecionada && indicador != indicadorSelecionado) ||
+							('TD' === indicadorSelecionado && regiao != regiaoSelecionada) ||
+							(regiao != regiaoSelecionada && indicador != indicadorSelecionado)){
+							buildInidcador(data.idIndicador,data.titulo,data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, '',data.greenMin,data.greenMax,data.redMin,data.redMax,'inative');	
+						}
+					}
+				}**/
 			}
 			
 			initDashboard();
-			
 			$( window ).load(function() {
-				/**Altera o verde**/
-				$( "path[fill='#109618']" ).css({ fill: "#5b3" });
-				/**Altera a fonte**/
-				$( "text[font-size=6]" ).css('font-size','10');
-				/**Altera o azul**/
-				$( "circle[fill='#4684ee']" ).css({ fill: "#FFF" });
+				restyle();
 			});
+			
 			
 		</script>
 		
