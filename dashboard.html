@@ -40,7 +40,7 @@
 				var chart = new google.visualization.Gauge(document.getElementById(div));
 				chart.draw(data, options);
 			}			
-			function buildInidcador(idIndicador,titulo,mesAno,descricao,fonte,value, label, greenMin, greenMax, redMin , redMax){
+			function buildInidcador(idIndicador,titulo,regiao,mesAno,descricao,fonte,value, label, greenMin, greenMax, redMin , redMax){
 				$('#dashboard').append( "<div id='"+idIndicador+"' name='ALL_IND' class='ods-catalog-card__wrapper'>"
 				+"<div class='ods-catalog-card'>"
 				+"<div id='"+idIndicador+"_chart' class='gaugeSize'></div>"
@@ -48,8 +48,9 @@
 				+"<a href='#' class='ods-catalog-card__title-link'>"
 				+"<h2 class='ods-catalog-card__title ng-binding'>"+titulo+"</h2>"
 				+"</a>"
-				+"<p class='ods-catalog-card__description ng-binding' style='font-weight:bold;'>"+mesAno+"</p>"
+				+"<p class='ods-catalog-card__description ng-binding' style='font-weight:bold;'>"+regiao+"</p>"
 				+"<p class='ods-catalog-card__description ng-binding'>"+descricao+"</p>"
+				+"<p class='ods-catalog-card__description ng-binding' style='font-weight:bold;'>"+mesAno+"</p>"
 				+"<div class='ods-catalog-card__metadata ng-scope'>"
 				+"<div class='ods-catalog-card__metadata-item'>"
 				+"<div class='ods-catalog-card__metadata-item-label ng-binding'>Fonte</div>"
@@ -215,25 +216,18 @@
 					if(('TD' === regiaoSelecionada && indicador === indicadorSelecionado) ||
 						(regiao === regiaoSelecionada) ||
 						(regiao === regiaoSelecionada && indicador === indicadorSelecionado)){
-						buildInidcador(data.idIndicador,data.titulo,data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, data.unit,data.greenMin,data.greenMax,data.redMin,data.redMax);	
-					}
-				}
-				/**Carrega as inativas**/
-				/**if('TD' != regiaoSelecionada || 'TD' != indicadorSelecionado){
-					for (var i = 0; i < dataSetSize; i++) {
-						var data = dataset[i];
-						var regiao = data.idIndicador.substring(0, 2);
-						var indicador = data.idIndicador.substring(3, 7);
-						if(('TD' === regiaoSelecionada && indicador != indicadorSelecionado) ||
-							('TD' === indicadorSelecionado && regiao != regiaoSelecionada) ||
-							(regiao != regiaoSelecionada && indicador != indicadorSelecionado)){
-							buildInidcador(data.idIndicador,data.titulo,data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, '',data.greenMin,data.greenMax,data.redMin,data.redMax,'inative');	
+						var ars = $("#regioes option[value='"+regiao+"']").text();
+						if(regiao == 'PT'){
+							buildInidcador(data.idIndicador,data.titulo,'Nacional',data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, data.unit,data.greenMin,data.greenMax,data.redMin,data.redMax);	
+						}else{
+							buildInidcador(data.idIndicador,data.titulo,'ARS '+$("#regioes option[value='"+regiao+"']").text(),data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, data.unit,data.greenMin,data.greenMax,data.redMin,data.redMax);	
 						}
 					}
-				}**/
+				}
 			}
 			
 			initDashboard();
+			
 			$( window ).load(function() {
 				/**Altera o verde**/
 				$( "path[fill='#109618']" ).css({ fill: "#5b3" });
@@ -242,6 +236,7 @@
 				/**Altera o azul**/
 				$( "circle[fill='#4684ee']" ).css({ fill: "#FFF" });
 			});
+			
 		</script>
 		
 	</body>
