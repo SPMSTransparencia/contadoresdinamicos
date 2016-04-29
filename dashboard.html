@@ -26,7 +26,7 @@
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
 			google.charts.load('current', {'packages':['gauge']});
-			function drawChart(div, value, label, greenMin, greenMax, redMin , redMax, maxValue) {
+			function drawChart(div, value, label, greenMin, greenMax, redMin , redMax, valueMax) {
 				var data = google.visualization.arrayToDataTable([
 					['Label', 'Value'],
 					[label, value]
@@ -35,12 +35,12 @@
 					width: 120, height: 120,
 					greenFrom: greenMin, greenTo: greenMax,
 					redFrom: redMin, redTo: redMax,
-					max: maxValue,minorTicks: 1
+					max: valueMax,minorTicks: 1
 				};
 				var chart = new google.visualization.Gauge(document.getElementById(div));
 				chart.draw(data, options);
 			}			
-			function buildInidcador(idIndicador,titulo,regiao,mesAno,descricao,fonte,value, label, greenMin, greenMax, redMin , redMax){
+			function buildInidcador(idIndicador,titulo,regiao,mesAno,descricao,fonte,value, label, greenMin, greenMax, redMin , redMax,valueMax){
 				$('#dashboard').append( "<div id='"+idIndicador+"' name='ALL_IND' class='ods-catalog-card__wrapper'>"
 				+"<div class='ods-catalog-card'>"
 				+"<div id='"+idIndicador+"_chart' class='gaugeSize'></div>"
@@ -63,11 +63,11 @@
 				+"</div>"
 				+"</div>" );
 				/**Se o verde for maior que o vermelho**/
-				if(greenMax < redMax){
-					google.charts.setOnLoadCallback(function() {drawChart(idIndicador+'_chart', value, label,greenMin,greenMax,redMin,redMax,redMax);});
-				}else{
-					google.charts.setOnLoadCallback(function() {drawChart(idIndicador+'_chart', value, label,greenMin,greenMax,redMin,redMax,greenMax);});
-				}				
+				//if(greenMax < redMax){
+					//google.charts.setOnLoadCallback(function() {drawChart(idIndicador+'_chart', value, label,greenMin,greenMax,redMin,redMax,valueMax);});
+				//}else{
+					google.charts.setOnLoadCallback(function() {drawChart(idIndicador+'_chart', value, label,greenMin,greenMax,redMin,redMax,valueMax);});
+				//}				
 			}
 		</script>
 	</head>
@@ -138,85 +138,86 @@
 			}
 			
 			var dataset = [
-					{idIndicador:'AT_I_01', titulo:'Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'Percentagem de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.3196,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
-					{idIndicador:'AG_I_01', titulo:'Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'Percentagem de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.2775,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
-					{idIndicador:'CT_I_01', titulo:'Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'Percentagem de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.2840,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
-					{idIndicador:'LB_I_01', titulo:'Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'Percentagem de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.2814,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
-					{idIndicador:'NT_I_01', titulo:'Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'Percentagem de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.2975,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
-					{idIndicador:'PT_I_01', titulo:'Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'Percentagem de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.2902,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
-					{idIndicador:'AT_I_02', titulo:'Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'Percentagem de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:0.7042,greenMin:0.85,greenMax:1,redMin:0,redMax:0.75,unit:'%'},
-					{idIndicador:'AG_I_02', titulo:'Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'Percentagem de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:0.6416,greenMin:0.85,greenMax:1,redMin:0,redMax:0.75,unit:'%'},
-					{idIndicador:'CT_I_02', titulo:'Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'Percentagem de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:0.7469,greenMin:0.85,greenMax:1,redMin:0,redMax:0.75,unit:'%'},
-					{idIndicador:'LB_I_02', titulo:'Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'Percentagem de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:0.7488,greenMin:0.85,greenMax:1,redMin:0,redMax:0.75,unit:'%'},
-					{idIndicador:'NT_I_02', titulo:'Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'Percentagem de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:0.7125,greenMin:0.85,greenMax:1,redMin:0,redMax:0.75,unit:'%'},
-					{idIndicador:'PT_I_02', titulo:'Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'Percentagem de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:0.7271,greenMin:0.85,greenMax:1,redMin:0,redMax:0.75,unit:'%'},
-					{idIndicador:'AT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:0.7250,greenMin:0.75,greenMax:1,redMin:0,redMax:0.65,unit:'%'},
-					{idIndicador:'AG_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:0.5970,greenMin:0.75,greenMax:1,redMin:0,redMax:0.65,unit:'%'},
-					{idIndicador:'CT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:0.6840,greenMin:0.75,greenMax:1,redMin:0,redMax:0.65,unit:'%'},
-					{idIndicador:'LB_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:0.6050,greenMin:0.75,greenMax:1,redMin:0,redMax:0.65,unit:'%'},
-					{idIndicador:'NT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:0.7450,greenMin:0.75,greenMax:1,redMin:0,redMax:0.65,unit:'%'},
-					{idIndicador:'PT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:0.6760,greenMin:0.75,greenMax:1,redMin:0,redMax:0.65,unit:'%'},
-					{idIndicador:'AT_I_04', titulo:'Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'Percentagem de Utentes com Médico de Família',fonte:'ACSS',value:0.9340,greenMin:0.95,greenMax:1,redMin:0,redMax:0.85,unit:'%'},
-					{idIndicador:'AG_I_04', titulo:'Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'Percentagem de Utentes com Médico de Família',fonte:'ACSS',value:0.7630,greenMin:0.95,greenMax:1,redMin:0,redMax:0.85,unit:'%'},
-					{idIndicador:'CT_I_04', titulo:'Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'Percentagem de Utentes com Médico de Família',fonte:'ACSS',value:0.9420,greenMin:0.95,greenMax:1,redMin:0,redMax:0.85,unit:'%'},
-					{idIndicador:'LB_I_04', titulo:'Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'Percentagem de Utentes com Médico de Família',fonte:'ACSS',value:0.7850,greenMin:0.95,greenMax:1,redMin:0,redMax:0.85,unit:'%'},
-					{idIndicador:'NT_I_04', titulo:'Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'Percentagem de Utentes com Médico de Família',fonte:'ACSS',value:0.9650,greenMin:0.95,greenMax:1,redMin:0,redMax:0.85,unit:'%'},
-					{idIndicador:'PT_I_04', titulo:'Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'Percentagem de Utentes com Médico de Família',fonte:'ACSS',value:0.8850,greenMin:0.95,greenMax:1,redMin:0,redMax:0.85,unit:'%'},
-					{idIndicador:'AT_I_05', titulo:'Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:0.4123,greenMin:0,greenMax:0.3,redMin:0.4,redMax:1,unit:'%'},
-					{idIndicador:'AG_I_05', titulo:'Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:0.3886,greenMin:0,greenMax:0.3,redMin:0.4,redMax:1,unit:'%'},
-					{idIndicador:'CT_I_05', titulo:'Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:0.3570,greenMin:0,greenMax:0.3,redMin:0.4,redMax:1,unit:'%'},
-					{idIndicador:'LB_I_05', titulo:'Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:0.4597,greenMin:0,greenMax:0.3,redMin:0.4,redMax:1,unit:'%'},
-					{idIndicador:'NT_I_05', titulo:'Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:0.3784,greenMin:0,greenMax:0.3,redMin:0.4,redMax:1,unit:'%'},
-					{idIndicador:'PT_I_05', titulo:'Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:0.4033,greenMin:0,greenMax:0.3,redMin:0.4,redMax:1,unit:'%'},
-					{idIndicador:'AT_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:0.741,greenMin:0.1,greenMax:1,redMin:0,redMax:0.06,unit:'%'},
-					{idIndicador:'AG_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:0.727,greenMin:0.1,greenMax:1,redMin:0,redMax:0.06,unit:'%'},
-					{idIndicador:'CT_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:0.931,greenMin:0.1,greenMax:1,redMin:0,redMax:0.06,unit:'%'},
-					{idIndicador:'LB_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:0.889,greenMin:0.1,greenMax:1,redMin:0,redMax:0.06,unit:'%'},
-					{idIndicador:'NT_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:0.862,greenMin:0.1,greenMax:1,redMin:0,redMax:0.06,unit:'%'},
-					{idIndicador:'PT_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:0.871,greenMin:0.1,greenMax:1,redMin:0,redMax:0.06,unit:'%'},
-					{idIndicador:'AT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:0.8197,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'%'},
-					{idIndicador:'AG_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:0.9082,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'%'},
-					{idIndicador:'CT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:0.8698,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'%'},
-					{idIndicador:'LB_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:0.9110,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'%'},
-					{idIndicador:'NT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:0.9269,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'%'},
-					{idIndicador:'PT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:0.9031,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'%'},
-					{idIndicador:'AT_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:0.6520,greenMin:0.65,greenMax:1,redMin:0,redMax:0.5,unit:'%'},
-					{idIndicador:'AG_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:0.5670,greenMin:0.65,greenMax:1,redMin:0,redMax:0.5,unit:'%'},
-					{idIndicador:'CT_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de itervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:0.5960,greenMin:0.65,greenMax:1,redMin:0,redMax:0.5,unit:'%'},
-					{idIndicador:'LB_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:0.6140,greenMin:0.65,greenMax:1,redMin:0,redMax:0.5,unit:'%'},
-					{idIndicador:'NT_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:0.5970,greenMin:0.65,greenMax:1,redMin:0,redMax:0.5,unit:'%'},
-					{idIndicador:'PT_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:0.6040,greenMin:0.65,greenMax:1,redMin:0,redMax:0.5,unit:'%'},
-					{idIndicador:'AT_I_09', titulo:'Partos por Cesariana', mes:'Março', ano:'2016',descricao:'Percentagem de Partos por Cesariana',fonte:'ACSS',value:0.2606,greenMin:0,greenMax:0.25,redMin:0.30,redMax:1,unit:'%'},
-					{idIndicador:'AG_I_09', titulo:'Partos por Cesariana', mes:'Março', ano:'2016',descricao:'Percentagem de Partos por Cesariana',fonte:'ACSS',value:0.2698,greenMin:0,greenMax:0.25,redMin:0.30,redMax:1,unit:'%'},
-					{idIndicador:'CT_I_09', titulo:'Partos por Cesariana', mes:'Março', ano:'2016',descricao:'Percentagem de Partos por Cesariana',fonte:'ACSS',value:0.2625,greenMin:0,greenMax:0.25,redMin:0.30,redMax:1,unit:'%'},
-					{idIndicador:'LB_I_09', titulo:'Partos por Cesariana', mes:'Março', ano:'2016',descricao:'Percentagem de Partos por Cesariana',fonte:'ACSS',value:0.2625,greenMin:0,greenMax:0.25,redMin:0.30,redMax:1,unit:'%'},
-					{idIndicador:'NT_I_09', titulo:'Partos por Cesariana', mes:'Março', ano:'2016',descricao:'Percentagem de Partos por Cesariana',fonte:'ACSS',value:0.2982,greenMin:0,greenMax:0.25,redMin:0.30,redMax:1,unit:'%'},
-					{idIndicador:'PT_I_09', titulo:'Partos por Cesariana', mes:'Março', ano:'2016',descricao:'Percentagem de Partos por Cesariana',fonte:'ACSS',value:0.2786,greenMin:0,greenMax:0.25,redMin:0.30,redMax:1,unit:'%'},
-					{idIndicador:'AT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:0.1765,greenMin:0,greenMax:0.17,redMin:0.41,redMax:1,unit:'%'},
-					{idIndicador:'AG_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:0.1667,greenMin:0,greenMax:0.17,redMin:0.41,redMax:1,unit:'%'},
-					{idIndicador:'CT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:0.3036,greenMin:0,greenMax:0.17,redMin:0.41,redMax:1,unit:'%'},
-					{idIndicador:'LB_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:0.2556,greenMin:0,greenMax:0.17,redMin:0.41,redMax:1,unit:'%'},
-					{idIndicador:'NT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:0.2573,greenMin:0,greenMax:0.17,redMin:0.41,redMax:1,unit:'%'},
-					{idIndicador:'PT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:0.2568,greenMin:0,greenMax:0.17,redMin:0.41,redMax:1,unit:'%'},
-					{idIndicador:'AT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:0.855,greenMin:0,greenMax:0.06,redMin:0.16,redMax:1,unit:'%'},
-					{idIndicador:'AG_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:0.984,greenMin:0,greenMax:0.06,redMin:0.16,redMax:1,unit:'%'},
-					{idIndicador:'CT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:0.1405,greenMin:0,greenMax:0.06,redMin:0.16,redMax:1,unit:'%'},
-					{idIndicador:'LB_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:0.1185,greenMin:0,greenMax:0.06,redMin:0.16,redMax:1,unit:'%'},
-					{idIndicador:'NT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:0.1002,greenMin:0,greenMax:0.06,redMin:0.16,redMax:1,unit:'%'},
-					{idIndicador:'PT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:0.1118,greenMin:0,greenMax:0.06,redMin:0.16,redMax:1,unit:'%'},
-					{idIndicador:'AT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:75.8,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
-					{idIndicador:'AG_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:22.0,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
-					{idIndicador:'CT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:301.8,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
-					{idIndicador:'LB_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:798.5,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
-					{idIndicador:'NT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:505.6,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
-					{idIndicador:'PT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:1704.0,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
-					{idIndicador:'AT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:20.1,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
-					{idIndicador:'AG_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:0.7,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
-					{idIndicador:'CT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:118.8,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
-					{idIndicador:'LB_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:356.7,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
-					{idIndicador:'NT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:71.2,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
-					{idIndicador:'PT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:567.0,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'}
-				]
+					{idIndicador:'AT_I_01', titulo:'Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'Percentagem de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:32.1,greenMin:30,greenMax:100,redMin:0,redMax:25,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_01', titulo:'Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'Percentagem de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:27.8,greenMin:30,greenMax:100,redMin:0,redMax:25,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_01', titulo:'Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'Percentagem de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:28.4,greenMin:30,greenMax:100,redMin:0,redMax:25,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_01', titulo:'Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'Percentagem de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:28.1,greenMin:30,greenMax:100,redMin:0,redMax:25,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_01', titulo:'Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'Percentagem de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:29.8,greenMin:30,greenMax:100,redMin:0,redMax:25,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_01', titulo:'Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'Percentagem de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:29.0,greenMin:30,greenMax:100,redMin:0,redMax:25,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_02', titulo:'Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'Percentagem de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:70.4,greenMin:85,greenMax:100,redMin:0,redMax:75,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_02', titulo:'Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'Percentagem de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:64.2,greenMin:85,greenMax:100,redMin:0,redMax:75,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_02', titulo:'Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'Percentagem de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:74.8,greenMin:85,greenMax:100,redMin:0,redMax:75,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_02', titulo:'Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'Percentagem de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:74.9,greenMin:85,greenMax:100,redMin:0,redMax:75,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_02', titulo:'Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'Percentagem de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:71.3,greenMin:85,greenMax:100,redMin:0,redMax:75,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_02', titulo:'Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'Percentagem de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:72.7,greenMin:85,greenMax:100,redMin:0,redMax:75,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:72.5,greenMin:75,greenMax:100,redMin:0,redMax:65,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:59.7,greenMin:75,greenMax:100,redMin:0,redMax:65,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:68.4,greenMin:75,greenMax:100,redMin:0,redMax:65,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:60.5,greenMin:75,greenMax:100,redMin:0,redMax:65,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:74.5,greenMin:75,greenMax:100,redMin:0,redMax:65,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:67.6,greenMin:75,greenMax:100,redMin:0,redMax:65,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_04', titulo:'Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'Percentagem de Utentes com Médico de Família',fonte:'ACSS',value:93.4,greenMin:95,greenMax:100,redMin:0,redMax:85,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_04', titulo:'Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'Percentagem de Utentes com Médico de Família',fonte:'ACSS',value:76.3,greenMin:95,greenMax:100,redMin:0,redMax:85,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_04', titulo:'Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'Percentagem de Utentes com Médico de Família',fonte:'ACSS',value:94.2,greenMin:95,greenMax:100,redMin:0,redMax:85,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_04', titulo:'Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'Percentagem de Utentes com Médico de Família',fonte:'ACSS',value:78.5,greenMin:95,greenMax:100,redMin:0,redMax:85,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_04', titulo:'Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'Percentagem de Utentes com Médico de Família',fonte:'ACSS',value:96.5,greenMin:95,greenMax:100,redMin:0,redMax:85,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_04', titulo:'Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'Percentagem de Utentes com Médico de Família',fonte:'ACSS',value:88.5,greenMin:95,greenMax:100,redMin:0,redMax:85,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_05', titulo:'Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:41.2,greenMin:0,greenMax:30,redMin:40,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_05', titulo:'Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:38.9,greenMin:0,greenMax:30,redMin:40,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_05', titulo:'Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:35.7,greenMin:0,greenMax:30,redMin:40,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_05', titulo:'Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:46.0,greenMin:0,greenMax:30,redMin:40,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_05', titulo:'Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:37.9,greenMin:0,greenMax:30,redMin:40,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_05', titulo:'Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:40.3,greenMin:0,greenMax:30,redMin:40,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:74.1,greenMin:10,greenMax:100,redMin:0,redMax:6,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:72.7,greenMin:10,greenMax:100,redMin:0,redMax:6,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:93.1,greenMin:10,greenMax:100,redMin:0,redMax:6,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:88.9,greenMin:10,greenMax:100,redMin:0,redMax:6,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:86.2,greenMin:10,greenMax:100,redMin:0,redMax:6,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:87.1,greenMin:10,greenMax:100,redMin:0,redMax:6,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:82.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:91.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:87.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:91.1,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:92.7,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:90.3,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:65.2,greenMin:65,greenMax:100,redMin:0,redMax:50,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:56.7,greenMin:65,greenMax:100,redMin:0,redMax:50,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:59.6,greenMin:65,greenMax:100,redMin:0,redMax:50,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:61.4,greenMin:65,greenMax:100,redMin:0,redMax:50,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:59.7,greenMin:65,greenMax:100,redMin:0,redMax:50,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:60.4,greenMin:65,greenMax:100,redMin:0,redMax:50,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_09', titulo:'Partos por Cesariana', mes:'Março', ano:'2016',descricao:'Percentagem de Partos por Cesariana',fonte:'ACSS',value:26.1,greenMin:0,greenMax:25,redMin:30,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_09', titulo:'Partos por Cesariana', mes:'Março', ano:'2016',descricao:'Percentagem de Partos por Cesariana',fonte:'ACSS',value:27.0,greenMin:0,greenMax:25,redMin:30,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_09', titulo:'Partos por Cesariana', mes:'Março', ano:'2016',descricao:'Percentagem de Partos por Cesariana',fonte:'ACSS',value:26.3,greenMin:0,greenMax:25,redMin:30,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_09', titulo:'Partos por Cesariana', mes:'Março', ano:'2016',descricao:'Percentagem de Partos por Cesariana',fonte:'ACSS',value:26.3,greenMin:0,greenMax:25,redMin:30,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_09', titulo:'Partos por Cesariana', mes:'Março', ano:'2016',descricao:'Percentagem de Partos por Cesariana',fonte:'ACSS',value:29.8,greenMin:0,greenMax:25,redMin:30,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_09', titulo:'Partos por Cesariana', mes:'Março', ano:'2016',descricao:'Percentagem de Partos por Cesariana',fonte:'ACSS',value:27.9,greenMin:0,greenMax:25,redMin:30,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:17.7,greenMin:0,greenMax:17,redMin:41,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:16.7,greenMin:0,greenMax:17,redMin:41,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:30.4,greenMin:0,greenMax:17,redMin:41,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:25.6,greenMin:0,greenMax:17,redMin:41,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:25.7,greenMin:0,greenMax:17,redMin:41,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:25.7,greenMin:0,greenMax:17,redMin:41,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:85.5,greenMin:0,greenMax:6,redMin:16,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:98.4,greenMin:0,greenMax:6,redMin:16,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:14.1,greenMin:0,greenMax:6,redMin:16,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:11.9,greenMin:0,greenMax:6,redMin:16,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:10.0,greenMin:0,greenMax:6,redMin:16,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:11.2,greenMin:0,greenMax:6,redMin:16,redMax:100,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:75.8,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					{idIndicador:'AG_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:22.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					{idIndicador:'CT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:301.8,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					{idIndicador:'LB_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:798.5,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					{idIndicador:'NT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:505.6,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					{idIndicador:'PT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:1704.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					{idIndicador:'AT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:20.1,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					{idIndicador:'AG_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:0.7,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					{idIndicador:'CT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:118.8,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					{idIndicador:'LB_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:356.7,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					{idIndicador:'NT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:71.2,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					{idIndicador:'PT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:567.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'}
+				];
+				
 			function initDashboard(){
 				$( "#dashboard" ).empty();
 				var dataSetSize = dataset.length;
@@ -226,11 +227,13 @@
 					var indicador = data.idIndicador.substring(3, 7);
 					if(('TD' === regiaoSelecionada && indicador === indicadorSelecionado) ||
 						(regiao === regiaoSelecionada && indicador === indicadorSelecionado)){
+						var a = indicador;
+						var b = indicadorSelecionado;
 						var ars = $("#regioes option[value='"+regiao+"']").text();
 						if(regiao == 'PT'){
-							buildInidcador(data.idIndicador,data.titulo,'Nacional',data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, data.unit,data.greenMin,data.greenMax,data.redMin,data.redMax);	
+							buildInidcador(data.idIndicador,data.titulo,'Nacional',data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, data.unit,data.greenMin,data.greenMax,data.redMin,data.redMax,data.valueMax);	
 						}else{
-							buildInidcador(data.idIndicador,data.titulo,'ARS '+$("#regioes option[value='"+regiao+"']").text(),data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, data.unit,data.greenMin,data.greenMax,data.redMin,data.redMax);	
+							buildInidcador(data.idIndicador,data.titulo,'ARS '+$("#regioes option[value='"+regiao+"']").text(),data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, data.unit,data.greenMin,data.greenMax,data.redMin,data.redMax,data.valueMax);	
 						}
 					}
 				}
