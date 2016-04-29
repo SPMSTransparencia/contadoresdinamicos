@@ -225,7 +225,6 @@
 					var regiao = data.idIndicador.substring(0, 2);
 					var indicador = data.idIndicador.substring(3, 7);
 					if(('TD' === regiaoSelecionada && indicador === indicadorSelecionado) ||
-						(regiao === regiaoSelecionada) ||
 						(regiao === regiaoSelecionada && indicador === indicadorSelecionado)){
 						var ars = $("#regioes option[value='"+regiao+"']").text();
 						if(regiao == 'PT'){
@@ -235,19 +234,6 @@
 						}
 					}
 				}
-				/**Carrega as inativas**/
-				/**if('TD' != regiaoSelecionada || 'TD' != indicadorSelecionado){
-					for (var i = 0; i < dataSetSize; i++) {
-						var data = dataset[i];
-						var regiao = data.idIndicador.substring(0, 2);
-						var indicador = data.idIndicador.substring(3, 7);
-						if(('TD' === regiaoSelecionada && indicador != indicadorSelecionado) ||
-							('TD' === indicadorSelecionado && regiao != regiaoSelecionada) ||
-							(regiao != regiaoSelecionada && indicador != indicadorSelecionado)){
-							buildInidcador(data.idIndicador,data.titulo,data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, '',data.greenMin,data.greenMax,data.redMin,data.redMax,'inative');	
-						}
-					}
-				}**/
 			}
 			
 			initDashboard();
