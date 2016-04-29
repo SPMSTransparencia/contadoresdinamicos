@@ -26,26 +26,22 @@
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
 			google.charts.load('current', {'packages':['gauge']});
-			function drawChart(div, value, label, greenMin, greenMax, redMin , redMax) {
-
+			function drawChart(div, value, label, greenMin, greenMax, redMin , redMax, maxValue) {
 				var data = google.visualization.arrayToDataTable([
 					['Label', 'Value'],
 					[label, value]
 					]);
-
 				var options = {
 					width: 120, height: 120,
 					greenFrom: greenMin, greenTo: greenMax,
 					redFrom: redMin, redTo: redMax,
-					max: redMax,minorTicks: 1
+					max: maxValue,minorTicks: 1
 				};
-
 				var chart = new google.visualization.Gauge(document.getElementById(div));
-
 				chart.draw(data, options);
 			}			
-			function buildInidcador(idIndicador,titulo,mesAno,descricao,fonte,value, label, greenMin, greenMax, redMin , redMax,inativeClass){
-				$('#dashboard').append( "<div id='"+idIndicador+"' name='ALL_IND' class='ods-catalog-card__wrapper "+inativeClass+"'>"
+			function buildInidcador(idIndicador,titulo,mesAno,descricao,fonte,value, label, greenMin, greenMax, redMin , redMax){
+				$('#dashboard').append( "<div id='"+idIndicador+"' name='ALL_IND' class='ods-catalog-card__wrapper'>"
 				+"<div class='ods-catalog-card'>"
 				+"<div id='"+idIndicador+"_chart' class='gaugeSize'></div>"
 				+"<div class='ods-catalog-card__body ng-scope'>"
@@ -65,7 +61,12 @@
 				+"</div>"
 				+"</div>"
 				+"</div>" );
-				google.charts.setOnLoadCallback(function() {drawChart(idIndicador+'_chart', value, label,greenMin,greenMax,redMin,redMax);});
+				/**Se o verde for maior que o vermelho**/
+				if(greenMax < redMax){
+					google.charts.setOnLoadCallback(function() {drawChart(idIndicador+'_chart', value, label,greenMin,greenMax,redMin,redMax,redMax);});
+				}else{
+					google.charts.setOnLoadCallback(function() {drawChart(idIndicador+'_chart', value, label,greenMin,greenMax,redMin,redMax,greenMax);});
+				}				
 			}
 		</script>
 	</head>
@@ -78,7 +79,7 @@
 			<div style="float: left; padding-top: 20px; padding-left: 10px; width: 40%; min-width: 380px; display: inline-block;">
 				<label>Indicador</label>
 				<select id="indicadores" style="width:300px;">
-					<option value="TD">Todos</option>
+					<!--<option value="TD">Todos</option>-->
 					<option value="I_01"> % de Primeiras Consultas sobre Total Consultas Hospitalares </option>
 					<option value="I_02"> % de Primeiras Consultas Realizadas em Tempo Adequado </option>
 					<option value="I_03"> Taxa de Utilização de Consultas nos CSP </option>
@@ -112,7 +113,7 @@
 		<div id="dashboard" class="ods-result-list odswidget-infinite-scroll-results" style="clear:both"></div>	
 		<script type="text/javascript">
 			var regiaoSelecionada = "TD";
-			var indicadorSelecionado = "TD";
+			var indicadorSelecionado = "I_01";
 			
 			$('#regioes').on('change', function() {
 				regiaoSelecionada = this.value;
@@ -125,104 +126,100 @@
 			});
 			
 			var dataset = [
-				{idIndicador:'AT_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AT_I_02', titulo:'% de Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_02', titulo:'% de Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_02', titulo:'% de Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_02', titulo:'% de Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_02', titulo:'% de Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_02', titulo:'% de Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AT_I_04', titulo:'% de Utentes com Médico de Família', mes:'Abril',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_04', titulo:'% de Utentes com Médico de Família', mes:'Abril',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_04', titulo:'% de Utentes com Médico de Família', mes:'Abril',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_04', titulo:'% de Utentes com Médico de Família', mes:'Abril',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_04', titulo:'% de Utentes com Médico de Família', mes:'Abril',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_04', titulo:'% de Utentes com Médico de Família', mes:'Abril',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AT_I_05', titulo:'% Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_05', titulo:'% Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_05', titulo:'% Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_05', titulo:'% Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_05', titulo:'% Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_05', titulo:'% Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AT_I_06', titulo:'% Atendimentos Urgentes com Internamento', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_06', titulo:'% Atendimentos Urgentes com Internamento', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_06', titulo:'% Atendimentos Urgentes com Internamento', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_06', titulo:'% Atendimentos Urgentes com Internamento', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_06', titulo:'% Atendimentos Urgentes com Internamento', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_06', titulo:'% Atendimentos Urgentes com Internamento', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AT_I_07', titulo:'Taxa de Ocupação', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_07', titulo:'Taxa de Ocupação', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_07', titulo:'Taxa de Ocupação', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_07', titulo:'Taxa de Ocupação', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_07', titulo:'Taxa de Ocupação', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_07', titulo:'Taxa de Ocupação', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AT_I_08', titulo:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_08', titulo:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_08', titulo:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_08', titulo:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_08', titulo:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_08', titulo:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AT_I_09', titulo:'% de Partos por Cesariana', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_09', titulo:'% de Partos por Cesariana', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_09', titulo:'% de Partos por Cesariana', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_09', titulo:'% de Partos por Cesariana', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_09', titulo:'% de Partos por Cesariana', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_09', titulo:'% de Partos por Cesariana', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AT_I_11', titulo:'Mortalidade por AVC Isquémico', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_11', titulo:'Mortalidade por AVC Isquémico', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_11', titulo:'Mortalidade por AVC Isquémico', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_11', titulo:'Mortalidade por AVC Isquémico', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_11', titulo:'Mortalidade por AVC Isquémico', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_11', titulo:'Mortalidade por AVC Isquémico', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AT_I_13', titulo:'Pagamentos em Atraso', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Alentejana.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'AG_I_13', titulo:'Pagamentos em Atraso', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Algarvia.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'CT_I_13', titulo:'Pagamentos em Atraso', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Centro.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'NT_I_13', titulo:'Pagamentos em Atraso', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região Norte.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'LB_I_13', titulo:'Pagamentos em Atraso', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, na região de Lisboa.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
-				{idIndicador:'PT_I_13', titulo:'Pagamentos em Atraso', mes:'Março',ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares, em Portugal.',fonte:'ACSS',value:35,greenMin:0,greenMax:25,redMin:60,redMax:150},
+					{idIndicador:'AT_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.3196,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
+					{idIndicador:'AG_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.2775,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
+					{idIndicador:'CT_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.2840,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
+					{idIndicador:'LB_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.2814,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
+					{idIndicador:'NT_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.2975,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
+					{idIndicador:'PT_I_01', titulo:'% de Primeiras Consultas sobre Total Consultas Hospitalares', mes:'Março', ano:'2016',descricao:'% de Primeiras Consultas sobre Total Consultas Hospitalares',fonte:'ACSS',value:0.2902,greenMin:0.30,greenMax:1,redMin:0,redMax:0.25,unit:'%'},
+					{idIndicador:'AT_I_02', titulo:'% de Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'% de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:0.7042,greenMin:0.85,greenMax:1,redMin:0,redMax:0.75,unit:'%'},
+					{idIndicador:'AG_I_02', titulo:'% de Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'% de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:0.6416,greenMin:0.85,greenMax:1,redMin:0,redMax:0.75,unit:'%'},
+					{idIndicador:'CT_I_02', titulo:'% de Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'% de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:0.7469,greenMin:0.85,greenMax:1,redMin:0,redMax:0.75,unit:'%'},
+					{idIndicador:'LB_I_02', titulo:'% de Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'% de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:0.7488,greenMin:0.85,greenMax:1,redMin:0,redMax:0.75,unit:'%'},
+					{idIndicador:'NT_I_02', titulo:'% de Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'% de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:0.7125,greenMin:0.85,greenMax:1,redMin:0,redMax:0.75,unit:'%'},
+					{idIndicador:'PT_I_02', titulo:'% de Primeiras Consultas Realizadas em Tempo Adequado', mes:'Fevereiro', ano:'2016',descricao:'% de Primeiras Consultas Realizadas em Tempo Adequado',fonte:'ACSS',value:0.7271,greenMin:0.85,greenMax:1,redMin:0,redMax:0.75,unit:'%'},
+					{idIndicador:'AT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:0.7250,greenMin:0.75,greenMax:1,redMin:0,redMax:0.65,unit:'%'},
+					{idIndicador:'AG_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:0.5970,greenMin:0.75,greenMax:1,redMin:0,redMax:0.65,unit:'%'},
+					{idIndicador:'CT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:0.6840,greenMin:0.75,greenMax:1,redMin:0,redMax:0.65,unit:'%'},
+					{idIndicador:'LB_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:0.6050,greenMin:0.75,greenMax:1,redMin:0,redMax:0.65,unit:'%'},
+					{idIndicador:'NT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:0.7450,greenMin:0.75,greenMax:1,redMin:0,redMax:0.65,unit:'%'},
+					{idIndicador:'PT_I_03', titulo:'Taxa de Utilização de Consultas nos CSP', mes:'Março', ano:'2016',descricao:'Taxa de Utilização de Consultas nos CSP',fonte:'ACSS',value:0.6760,greenMin:0.75,greenMax:1,redMin:0,redMax:0.65,unit:'%'},
+					{idIndicador:'AT_I_04', titulo:'% de Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'% de Utentes com Médico de Família',fonte:'ACSS',value:0.9340,greenMin:0.95,greenMax:1,redMin:0,redMax:0.85,unit:'%'},
+					{idIndicador:'AG_I_04', titulo:'% de Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'% de Utentes com Médico de Família',fonte:'ACSS',value:0.7630,greenMin:0.95,greenMax:1,redMin:0,redMax:0.85,unit:'%'},
+					{idIndicador:'CT_I_04', titulo:'% de Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'% de Utentes com Médico de Família',fonte:'ACSS',value:0.9420,greenMin:0.95,greenMax:1,redMin:0,redMax:0.85,unit:'%'},
+					{idIndicador:'LB_I_04', titulo:'% de Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'% de Utentes com Médico de Família',fonte:'ACSS',value:0.7850,greenMin:0.95,greenMax:1,redMin:0,redMax:0.85,unit:'%'},
+					{idIndicador:'NT_I_04', titulo:'% de Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'% de Utentes com Médico de Família',fonte:'ACSS',value:0.9650,greenMin:0.95,greenMax:1,redMin:0,redMax:0.85,unit:'%'},
+					{idIndicador:'PT_I_04', titulo:'% de Utentes com Médico de Família', mes:'Abril', ano:'2016',descricao:'% de Utentes com Médico de Família',fonte:'ACSS',value:0.8850,greenMin:0.95,greenMax:1,redMin:0,redMax:0.85,unit:'%'},
+					{idIndicador:'AT_I_05', titulo:'% Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'% Atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:0.4123,greenMin:0,greenMax:0.3,redMin:0.4,redMax:1,unit:'%'},
+					{idIndicador:'AG_I_05', titulo:'% Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'% Atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:0.3886,greenMin:0,greenMax:0.3,redMin:0.4,redMax:1,unit:'%'},
+					{idIndicador:'CT_I_05', titulo:'% Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'% Atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:0.3570,greenMin:0,greenMax:0.3,redMin:0.4,redMax:1,unit:'%'},
+					{idIndicador:'LB_I_05', titulo:'% Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'% Atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:0.4597,greenMin:0,greenMax:0.3,redMin:0.4,redMax:1,unit:'%'},
+					{idIndicador:'NT_I_05', titulo:'% Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'% Atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:0.3784,greenMin:0,greenMax:0.3,redMin:0.4,redMax:1,unit:'%'},
+					{idIndicador:'PT_I_05', titulo:'% Atendimentos com Prioridade Verde/Azul/Branca', mes:'Março', ano:'2016',descricao:'% Atendimentos com Prioridade Verde/Azul/Branca',fonte:'ACSS',value:0.4033,greenMin:0,greenMax:0.3,redMin:0.4,redMax:1,unit:'%'},
+					{idIndicador:'AT_I_06', titulo:'% Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'% Atendimentos Urgentes com Internamento',fonte:'ACSS',value:0.741,greenMin:0.1,greenMax:1,redMin:0,redMax:0.06,unit:'%'},
+					{idIndicador:'AG_I_06', titulo:'% Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'% Atendimentos Urgentes com Internamento',fonte:'ACSS',value:0.727,greenMin:0.1,greenMax:1,redMin:0,redMax:0.06,unit:'%'},
+					{idIndicador:'CT_I_06', titulo:'% Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'% Atendimentos Urgentes com Internamento',fonte:'ACSS',value:0.931,greenMin:0.1,greenMax:1,redMin:0,redMax:0.06,unit:'%'},
+					{idIndicador:'LB_I_06', titulo:'% Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'% Atendimentos Urgentes com Internamento',fonte:'ACSS',value:0.889,greenMin:0.1,greenMax:1,redMin:0,redMax:0.06,unit:'%'},
+					{idIndicador:'NT_I_06', titulo:'% Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'% Atendimentos Urgentes com Internamento',fonte:'ACSS',value:0.862,greenMin:0.1,greenMax:1,redMin:0,redMax:0.06,unit:'%'},
+					{idIndicador:'PT_I_06', titulo:'% Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'% Atendimentos Urgentes com Internamento',fonte:'ACSS',value:0.871,greenMin:0.1,greenMax:1,redMin:0,redMax:0.06,unit:'%'},
+					{idIndicador:'AT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:0.8197,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'%'},
+					{idIndicador:'AG_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:0.9082,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'%'},
+					{idIndicador:'CT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:0.8698,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'%'},
+					{idIndicador:'LB_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:0.9110,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'%'},
+					{idIndicador:'NT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:0.9269,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'%'},
+					{idIndicador:'PT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:0.9031,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'%'},
+					{idIndicador:'AT_I_08', titulo:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:0.6520,greenMin:0.65,greenMax:1,redMin:0,redMax:0.5,unit:'%'},
+					{idIndicador:'AG_I_08', titulo:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:0.5670,greenMin:0.65,greenMax:1,redMin:0,redMax:0.5,unit:'%'},
+					{idIndicador:'CT_I_08', titulo:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:0.5960,greenMin:0.65,greenMax:1,redMin:0,redMax:0.5,unit:'%'},
+					{idIndicador:'LB_I_08', titulo:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:0.6140,greenMin:0.65,greenMax:1,redMin:0,redMax:0.5,unit:'%'},
+					{idIndicador:'NT_I_08', titulo:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:0.5970,greenMin:0.65,greenMax:1,redMin:0,redMax:0.5,unit:'%'},
+					{idIndicador:'PT_I_08', titulo:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'% Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:0.6040,greenMin:0.65,greenMax:1,redMin:0,redMax:0.5,unit:'%'},
+					{idIndicador:'AT_I_09', titulo:'% de Partos por Cesariana', mes:'Março', ano:'2016',descricao:'% de Partos por Cesariana',fonte:'ACSS',value:0.2606,greenMin:0,greenMax:0.25,redMin:0.30,redMax:1,unit:'%'},
+					{idIndicador:'AG_I_09', titulo:'% de Partos por Cesariana', mes:'Março', ano:'2016',descricao:'% de Partos por Cesariana',fonte:'ACSS',value:0.2698,greenMin:0,greenMax:0.25,redMin:0.30,redMax:1,unit:'%'},
+					{idIndicador:'CT_I_09', titulo:'% de Partos por Cesariana', mes:'Março', ano:'2016',descricao:'% de Partos por Cesariana',fonte:'ACSS',value:0.2625,greenMin:0,greenMax:0.25,redMin:0.30,redMax:1,unit:'%'},
+					{idIndicador:'LB_I_09', titulo:'% de Partos por Cesariana', mes:'Março', ano:'2016',descricao:'% de Partos por Cesariana',fonte:'ACSS',value:0.2625,greenMin:0,greenMax:0.25,redMin:0.30,redMax:1,unit:'%'},
+					{idIndicador:'NT_I_09', titulo:'% de Partos por Cesariana', mes:'Março', ano:'2016',descricao:'% de Partos por Cesariana',fonte:'ACSS',value:0.2982,greenMin:0,greenMax:0.25,redMin:0.30,redMax:1,unit:'%'},
+					{idIndicador:'PT_I_09', titulo:'% de Partos por Cesariana', mes:'Março', ano:'2016',descricao:'% de Partos por Cesariana',fonte:'ACSS',value:0.2786,greenMin:0,greenMax:0.25,redMin:0.30,redMax:1,unit:'%'},
+					{idIndicador:'AT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:0.1765,greenMin:0,greenMax:0.17,redMin:0.41,redMax:1,unit:'%'},
+					{idIndicador:'AG_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:0.1667,greenMin:0,greenMax:0.17,redMin:0.41,redMax:1,unit:'%'},
+					{idIndicador:'CT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:0.3036,greenMin:0,greenMax:0.17,redMin:0.41,redMax:1,unit:'%'},
+					{idIndicador:'LB_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:0.2556,greenMin:0,greenMax:0.17,redMin:0.41,redMax:1,unit:'%'},
+					{idIndicador:'NT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:0.2573,greenMin:0,greenMax:0.17,redMin:0.41,redMax:1,unit:'%'},
+					{idIndicador:'PT_I_10', titulo:'Mortalidade por AVC Hemorrágico', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Hemorrágico',fonte:'ACSS',value:0.2568,greenMin:0,greenMax:0.17,redMin:0.41,redMax:1,unit:'%'},
+					{idIndicador:'AT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:0.855,greenMin:0,greenMax:0.06,redMin:0.16,redMax:1,unit:'%'},
+					{idIndicador:'AG_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:0.984,greenMin:0,greenMax:0.06,redMin:0.16,redMax:1,unit:'%'},
+					{idIndicador:'CT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:0.1405,greenMin:0,greenMax:0.06,redMin:0.16,redMax:1,unit:'%'},
+					{idIndicador:'LB_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:0.1185,greenMin:0,greenMax:0.06,redMin:0.16,redMax:1,unit:'%'},
+					{idIndicador:'NT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:0.1002,greenMin:0,greenMax:0.06,redMin:0.16,redMax:1,unit:'%'},
+					{idIndicador:'PT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:0.1118,greenMin:0,greenMax:0.06,redMin:0.16,redMax:1,unit:'%'},
+					{idIndicador:'AT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:75.8,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
+					{idIndicador:'AG_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:22.0,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
+					{idIndicador:'CT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:301.8,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
+					{idIndicador:'LB_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:798.5,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
+					{idIndicador:'NT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:505.6,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
+					{idIndicador:'PT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:1704.0,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
+					{idIndicador:'AT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:20.1,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
+					{idIndicador:'AG_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:0.7,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
+					{idIndicador:'CT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:118.8,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
+					{idIndicador:'LB_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:356.7,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
+					{idIndicador:'NT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:71.2,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'},
+					{idIndicador:'PT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:567.0,greenMin:0,greenMax:0,redMin:0,redMax:0,unit:'ME'}
 				]
 			function initDashboard(){
 				$( "#dashboard" ).empty();
 				var dataSetSize = dataset.length;
 				for (var i = 0; i < dataSetSize; i++) {
 					var data = dataset[i];
-					if('TD' === regiaoSelecionada && 'TD' === indicadorSelecionado){
-						buildInidcador(data.idIndicador,data.titulo,data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, '',data.greenMin,data.greenMax,data.redMin,data.redMax,'');
-					}else{
-						var regiao = data.idIndicador.substring(0, 2);
-						var indicador = data.idIndicador.substring(3, 7);
-						if(('TD' === regiaoSelecionada && indicador === indicadorSelecionado) ||
-							('TD' === indicadorSelecionado && regiao === regiaoSelecionada) ||
-							(regiao === regiaoSelecionada && indicador === indicadorSelecionado)){
-							buildInidcador(data.idIndicador,data.titulo,data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, '',data.greenMin,data.greenMax,data.redMin,data.redMax,'');	
-						}
+					var regiao = data.idIndicador.substring(0, 2);
+					var indicador = data.idIndicador.substring(3, 7);
+					if(('TD' === regiaoSelecionada && indicador === indicadorSelecionado) ||
+						(regiao === regiaoSelecionada) ||
+						(regiao === regiaoSelecionada && indicador === indicadorSelecionado)){
+						buildInidcador(data.idIndicador,data.titulo,data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, data.unit,data.greenMin,data.greenMax,data.redMin,data.redMax);	
 					}
 				}
 				/**Carrega as inativas**/
-				if('TD' != regiaoSelecionada || 'TD' != indicadorSelecionado){
+				/**if('TD' != regiaoSelecionada || 'TD' != indicadorSelecionado){
 					for (var i = 0; i < dataSetSize; i++) {
 						var data = dataset[i];
 						var regiao = data.idIndicador.substring(0, 2);
@@ -233,7 +230,7 @@
 							buildInidcador(data.idIndicador,data.titulo,data.mes+' de '+data.ano,data.descricao,data.fonte, data.value, '',data.greenMin,data.greenMax,data.redMin,data.redMax,'inative');	
 						}
 					}
-				}
+				}**/
 			}
 			
 			initDashboard();
