@@ -92,8 +92,11 @@
 					<option value="I_09"> Partos por Cesariana </option>
 					<option value="I_10"> Mortalidade por AVC Hemorrágico </option>
 					<option value="I_11"> Mortalidade por AVC Isquémico  </option>
-					<option value="I_12"> Total da Dívida a Fornecedores </option>
-					<option value="I_13"> Pagamentos em Atraso </option>				  
+					<!--<option value="I_12"> Total da Dívida a Fornecedores </option>-->
+					<!--<option value="I_13"> Pagamentos em Atraso </option>-->
+					<option value="I_14"> Quota Medicamentos Genéricos (valor) </option>
+					<option value="I_15"> Quota Medicamentos Genéricos (unidade) </option>					
+					<option value="I_16"> Evolução do Stock da Dívida </option>
 				</select>
 			</div>
 			<div style="float: left; display: block; padding-top: 20px; padding-left: 10px; min-width: 180px; width: 30%; height: auto; min-height: 90px;">
@@ -174,12 +177,12 @@
 					{idIndicador:'LB_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:88.9,greenMin:10,greenMax:100,redMin:0,redMax:6,valueMax:100,unit:'%'},
 					{idIndicador:'NT_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:86.2,greenMin:10,greenMax:100,redMin:0,redMax:6,valueMax:100,unit:'%'},
 					{idIndicador:'PT_I_06', titulo:'Atendimentos Urgentes com Internamento', mes:'Março', ano:'2016',descricao:'Percentagem de atendimentos Urgentes com Internamento',fonte:'ACSS',value:87.1,greenMin:10,greenMax:100,redMin:0,redMax:6,valueMax:100,unit:'%'},
-					{idIndicador:'AT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:82.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
-					{idIndicador:'AG_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:91.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
-					{idIndicador:'CT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:87.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
-					{idIndicador:'LB_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:91.1,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
-					{idIndicador:'NT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:92.7,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
-					{idIndicador:'PT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:90.3,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:82.0,greenMin:85,greenMax:100,redMin:0,redMax:75,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:91.0,greenMin:85,greenMax:100,redMin:0,redMax:75,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:87.0,greenMin:85,greenMax:100,redMin:0,redMax:75,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:91.1,greenMin:85,greenMax:100,redMin:0,redMax:75,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:92.7,greenMin:85,greenMax:100,redMin:0,redMax:75,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_07', titulo:'Taxa de Ocupação', mes:'Março', ano:'2016',descricao:'Taxa de Ocupação',fonte:'ACSS',value:90.3,greenMin:85,greenMax:100,redMin:0,redMax:75,valueMax:100,unit:'%'},
 					{idIndicador:'AT_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:65.2,greenMin:65,greenMax:100,redMin:0,redMax:50,valueMax:100,unit:'%'},
 					{idIndicador:'AG_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:56.7,greenMin:65,greenMax:100,redMin:0,redMax:50,valueMax:100,unit:'%'},
 					{idIndicador:'CT_I_08', titulo:'Intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas', mes:'Março', ano:'2016',descricao:'Percentagem de intervenções Cirúrgicas de Ambulatório no Total de Cirurgias Programadas',fonte:'ACSS',value:59.6,greenMin:65,greenMax:100,redMin:0,redMax:50,valueMax:100,unit:'%'},
@@ -204,18 +207,36 @@
 					{idIndicador:'LB_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:11.9,greenMin:0,greenMax:6,redMin:16,redMax:100,valueMax:100,unit:'%'},
 					{idIndicador:'NT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:10.0,greenMin:0,greenMax:6,redMin:16,redMax:100,valueMax:100,unit:'%'},
 					{idIndicador:'PT_I_11', titulo:'Mortalidade por AVC Isquémico ', mes:'Março', ano:'2016',descricao:'Mortalidade por AVC Isquémico ',fonte:'ACSS',value:11.2,greenMin:0,greenMax:6,redMin:16,redMax:100,valueMax:100,unit:'%'},
-					{idIndicador:'AT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:75.8,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
-					{idIndicador:'AG_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:22.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
-					{idIndicador:'CT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:301.8,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
-					{idIndicador:'LB_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:798.5,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
-					{idIndicador:'NT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:505.6,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
-					{idIndicador:'PT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:1704.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
-					{idIndicador:'AT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:20.1,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
-					{idIndicador:'AG_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:0.7,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
-					{idIndicador:'CT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:118.8,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
-					{idIndicador:'LB_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:356.7,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
-					{idIndicador:'NT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:71.2,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
-					{idIndicador:'PT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:567.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'}
+					//{idIndicador:'AT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:75.8,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					//{idIndicador:'AG_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:22.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					//{idIndicador:'CT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:301.8,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					//{idIndicador:'LB_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:798.5,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					//{idIndicador:'NT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:505.6,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					//{idIndicador:'PT_I_12', titulo:'Total da Dívida a Fornecedores', mes:'Março', ano:'2016',descricao:'Total da Dívida a Fornecedores',fonte:'ACSS',value:1704.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					//{idIndicador:'AT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:20.1,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					//{idIndicador:'AG_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:0.7,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					//{idIndicador:'CT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:118.8,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					//{idIndicador:'LB_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:356.7,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					//{idIndicador:'NT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:71.2,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					//{idIndicador:'PT_I_13', titulo:'Pagamentos em Atraso', mes:'Março', ano:'2016',descricao:'Pagamentos em Atraso',fonte:'ACSS',value:567.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:0,unit:'ME'},
+					{idIndicador:'AT_I_14', titulo:'Quota Medicamentos Genéricos (valor)', mes:'Janeiro', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:26.2,greenMin:30,greenMax:100,redMin:0,redMax:24,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_14', titulo:'Quota Medicamentos Genéricos (valor)', mes:'Janeiro', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:21.2,greenMin:30,greenMax:100,redMin:0,redMax:24,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_14', titulo:'Quota Medicamentos Genéricos (valor)', mes:'Janeiro', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:23.6,greenMin:30,greenMax:100,redMin:0,redMax:24,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_14', titulo:'Quota Medicamentos Genéricos (valor)', mes:'Janeiro', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:24.4,greenMin:30,greenMax:100,redMin:0,redMax:24,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_14', titulo:'Quota Medicamentos Genéricos (valor)', mes:'Janeiro', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:25.5,greenMin:30,greenMax:100,redMin:0,redMax:24,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_14', titulo:'Quota Medicamentos Genéricos (valor)', mes:'Janeiro', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:24.5,greenMin:30,greenMax:100,redMin:0,redMax:24,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_15', titulo:'Quota Medicamentos Genéricos (unidade)', mes:'Janeiro', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:47.4,greenMin:60,greenMax:100,redMin:0,redMax:45,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_15', titulo:'Quota Medicamentos Genéricos (unidade)', mes:'Janeiro', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:49.0,greenMin:60,greenMax:100,redMin:0,redMax:45,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_15', titulo:'Quota Medicamentos Genéricos (unidade)', mes:'Janeiro', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:46.0,greenMin:60,greenMax:100,redMin:0,redMax:45,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_15', titulo:'Quota Medicamentos Genéricos (unidade)', mes:'Janeiro', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:47.3,greenMin:60,greenMax:100,redMin:0,redMax:45,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_15', titulo:'Quota Medicamentos Genéricos (unidade)', mes:'Janeiro', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:49.2,greenMin:60,greenMax:100,redMin:0,redMax:45,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_15', titulo:'Quota Medicamentos Genéricos (unidade)', mes:'Janeiro', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:43.0,greenMin:60,greenMax:100,redMin:0,redMax:45,valueMax:100,unit:'%'},
+					{idIndicador:'AT_I_16', titulo:'Evolução do Stock da Dívida', mes:'Março', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:1.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
+					{idIndicador:'AG_I_16', titulo:'Evolução do Stock da Dívida', mes:'Março', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:19.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
+					{idIndicador:'CT_I_16', titulo:'Evolução do Stock da Dívida', mes:'Março', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:0.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
+					{idIndicador:'LB_I_16', titulo:'Evolução do Stock da Dívida', mes:'Março', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:2.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
+					{idIndicador:'NT_I_16', titulo:'Evolução do Stock da Dívida', mes:'Março', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:4.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'},
+					{idIndicador:'PT_I_16', titulo:'Evolução do Stock da Dívida', mes:'Março', ano:'2016',descricao:'Quota Medicamentos Genéricos',fonte:'ACSS',value:0.0,greenMin:0,greenMax:0,redMin:0,redMax:0,valueMax:100,unit:'%'}
 				];
 				
 			function initDashboard(){
