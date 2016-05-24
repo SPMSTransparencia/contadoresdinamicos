@@ -69,7 +69,7 @@
 					  var errorMessage = error.message;
 					  $('#log').append('</br>Erro na Autenticação no FB! ErrorCode = '+ error.code +'  ErrorMessage = '+error.message);
 					  return;
-					});*/	
+					});	
 					$('#log').append('</br>Autenticação com sucesso no FB!');
 					$('#log').append('</br>Grava na base de dados do FB!');
 					firebase.database().ref(keyIndicadores).set(data);
@@ -81,7 +81,7 @@
 						var errorMessage = error.message;
 						$('#log').append('</br>Erro no Logout no FB! ErrorCode = '+ error.code +'  ErrorMessage = '+error.message);
 					});
-				});
+				});*/
 				$('#log').append('</br>Valida o objecto na base de dados do FB');
 				var call = callByAjax(urlRecords);
 				var fbOn = false;				
