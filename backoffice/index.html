@@ -56,13 +56,13 @@
 			function refreshIndicadores() {
 				$('#log').text('Chama a API da ODS!');	
 				var call = callByAjax(urlGeneric);
-				/*call.success(function (data) {
+				call.success(function (data) {
 					$('#log').append('</br>ODS devolveu sucesso!');	
 					data.parameters['dateRefresh'] = getDateNow();
 					$('#log').append('</br>Adiciona a data de atualização!');	
 					$('#log').append('</br>Inicializa o FB!');	
 					/**Inicializa o fb*/
-					/*firebase.initializeApp(config);	
+					firebase.initializeApp(config);	
 					$('#log').append('</br>Autentica no FB!');
 					firebase.auth().signInWithEmailAndPassword('transparencia@spms.min-saude.pt', 'spms#123').catch(function(error) {
 					  var errorCode = error.code;
@@ -81,7 +81,7 @@
 						var errorMessage = error.message;
 						$('#log').append('</br>Erro no Logout no FB! ErrorCode = '+ error.code +'  ErrorMessage = '+error.message);
 					});
-				});*/
+				});
 				$('#log').append('</br>Valida o objecto na base de dados do FB');
 				var call = callByAjax(urlRecords);
 				var fbOn = false;				
