@@ -1,8 +1,3 @@
-/**Carrega o firebase*/
-//var imported = document.createElement('script');
-//imported.src = 'https://www.gstatic.com/firebasejs/3.0.0/firebase.js';
-//document.head.appendChild(imported);
-$("head").append('<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.0.0/firebase.js"></script>');
 /**Variaveis*/
 var urlGeneric = 'https://transparencia.sns.gov.pt/api/records/1.0/search/?apikey=12ff0012d23b6a9210528d5fbbdab95f5680ec5ecf894f05c40e42b1&dataset=contadores-dinamicos';
 var urlRecords = 'https://project-1077097263233676948.firebaseio.com/indicadores/records.json?auth=nNK0N1EfATzvaLAaWnWC3P2k2kn3GpIM5uXdP1eF';
