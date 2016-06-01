@@ -30,7 +30,7 @@
 		</br>
 		<div class="row">
 			<div class="col-md-3">
-				<h2>Log´s cópia de ODS para Firebase</h2>
+				<h2>Log´s da cópia de ODS para Firebase</h2>
 				<pre id="log"></pre>
 			</div>
 			<div class="col-md-9">
@@ -64,35 +64,35 @@
 						
 			/**Faz refresh dos indicadores*/
 			function refreshIndicadores() {
-				$('#log').text('Chama a API da ODS!');	
+				$('#log').text('1 -> Chama a API da ODS!');	
 				var call = callByAjax(urlGeneric);
 				call.success(function (data) {
-					$('#log').append('</br>ODS devolveu sucesso!');	
+					$('#log').append('</br>2 -> ODS devolveu sucesso!');	
 					data.parameters['dateRefresh'] = getDateNow();
-					$('#log').append('</br>Adiciona a data de atualização!');	
-					$('#log').append('</br>Inicializa o FB!');	
+					$('#log').append('</br>3 -> Adiciona a data de atualização!');	
+					$('#log').append('</br>4 -> Inicializa o FB!');	
 					/**Inicializa o fb*/
 					firebase.initializeApp(config);	
-					$('#log').append('</br>Autentica no FB!');
+					$('#log').append('</br>5 -> Autentica no FB!');
 					firebase.auth().signInWithEmailAndPassword('transparencia@spms.min-saude.pt', 'spms#123').catch(function(error) {
 					  var errorCode = error.code;
 					  var errorMessage = error.message;
-					  $('#log').append('</br>Erro na Autenticação no FB! ErrorCode = '+ error.code +'  ErrorMessage = '+error.message);
+					  $('#log').append('</br>5 -> Erro na Autenticação no FB! ErrorCode = '+ error.code +'  ErrorMessage = '+error.message);
 					  return;
 					});	
-					$('#log').append('</br>Autenticação com sucesso no FB!');
-					$('#log').append('</br>Grava na base de dados do FB!');
+					$('#log').append('</br>6 -> Autenticação com sucesso no FB!');
+					$('#log').append('</br>7 -> Grava na base de dados do FB!');
 					firebase.database().ref(keyIndicadores).set(data);
-					$('#log').append('</br>Gravação com sucesso no FB!');
+					$('#log').append('</br>8 -> Gravação com sucesso no FB!');
 					firebase.auth().signOut().then(function() {
-					  $('#log').append('</br>Logout com sucesso no FB!');
+					  $('#log').append('</br>9 -> Logout com sucesso no FB!');
 					}, function(error) {
 						var errorCode = error.code;
 						var errorMessage = error.message;
-						$('#log').append('</br>Erro no Logout no FB! ErrorCode = '+ error.code +'  ErrorMessage = '+error.message);
+						$('#log').append('</br>9 -> Erro no Logout no FB! ErrorCode = '+ error.code +'  ErrorMessage = '+error.message);
 					});
 				});
-				$('#log').append('</br>Valida o objecto na base de dados do FB');
+				$('#log').append('</br>10 -> Valida o objecto na base de dados do FB');
 				var call = callByAjax(urlRecords);
 				var fbOn = false;				
 				call.success(function (data) {
@@ -102,11 +102,11 @@
 					}
 					/**Se tiver dados arranca os indicadores*/
 					if(fbOn){
-						$('#log').append('</br>Objeto com os seguintes dados :');
+						$('#log').append('</br>11 -> Objeto com os seguintes dados :');
 						var jsonString = JSON.stringify(data, null, 4);
 						$("#output").text(jsonString);
 					}else{
-						$('#log').append('</br>Objeto sem dados na base de dados do FB!');
+						$('#log').append('</br>11 -> Objeto sem dados na base de dados do FB!');
 					}
 				});
 			}
