@@ -1,6 +1,6 @@
 /**Variaveis*/
-var urlGeneric = 'https://transparencia.sns.gov.pt/api/records/1.0/search/?apikey=12ff0012d23b6a9210528d5fbbdab95f5680ec5ecf894f05c40e42b1&dataset=contadores-dinamicos';
-//var urlGeneric = '';
+//var urlGeneric = 'https://transparencia.sns.gov.pt/api/records/1.0/search/?apikey=12ff0012d23b6a9210528d5fbbdab95f5680ec5ecf894f05c40e42b1&dataset=contadores-dinamicos';
+var urlGeneric = '';
 var urlRecords = 'https://project-1077097263233676948.firebaseio.com/indicadores/records.json?auth=nNK0N1EfATzvaLAaWnWC3P2k2kn3GpIM5uXdP1eF';
 var urlDate = 'https://project-1077097263233676948.firebaseio.com/indicadores/parameters/dateRefresh.json?auth=nNK0N1EfATzvaLAaWnWC3P2k2kn3GpIM5uXdP1eF';
 var indicadoresTipoUm=[];
