@@ -1,4 +1,7 @@
+/**Variaveis*/
 var urlGeneric = 'https://transparencia.sns.gov.pt/api/records/1.0/search/?apikey=12ff0012d23b6a9210528d5fbbdab95f5680ec5ecf894f05c40e42b1&dataset=contadores-dinamicos';
+var urlRecords = 'https://project-1077097263233676948.firebaseio.com/indicadores/records.json?auth=nNK0N1EfATzvaLAaWnWC3P2k2kn3GpIM5uXdP1eF';
+var urlDate = 'https://project-1077097263233676948.firebaseio.com/indicadores/parameters/dateRefresh.json?auth=nNK0N1EfATzvaLAaWnWC3P2k2kn3GpIM5uXdP1eF';
 var indicadoresTipoUm=[];
 var indicadoresTipoDois=[];
 var indicadoresTipoTres=[];
@@ -7,38 +10,75 @@ var segundosPorDia = 86400;
 var idValue = '#cnt';
 var idUrl = '#url';
 var idLabel = '#lbl';
-/**
- * Carrega os indicadores por tipo
- */
-function loadIndicadores() {
-	$.ajax({ 
+var keyIndicadores = 'indicadores';
+var milisegundosPorDia  = 86400000;
+var database;
+var config = {
+	apiKey: "AIzaSyBAseiwal8ikbDrofBMh-I-BpYp57jOZ88",
+	authDomain: "project-1077097263233676948.firebaseapp.com",
+	databaseURL: "https://project-1077097263233676948.firebaseio.com",
+	storageBucket: "",
+  };
+
+/**Executa o pedidos ajax a um url*/
+function callByAjax(callUrl) {
+	return $.ajax({ 
 	   type: "GET",
 	   dataType: "jsonp",
-	   url: urlGeneric,
-	   success: function(data){
-			var dataSetSize = data.records.length;
-			/**Separa os indicadores por tipo*/
-			for (var i = 0; i < dataSetSize; i++) {
-				var indicador = data.records[i];
-				var tipoIndicador = indicador.fields.tipo;
-				if(tipoIndicador === 1){
-					indicadoresTipoUm.push(indicador);
-				} else if(tipoIndicador === 2){
-					indicadoresTipoDois.push(indicador);
-				} else if(tipoIndicador === 3){
-					indicadoresTipoTres.push(indicador);
-				} else if(tipoIndicador === 4){
-					indicadoresTipoQuatro.push(indicador);
-				}
-			}
-			/**Arranca os contadores por tipo*/	
-			getContador(indicadoresTipoUm);
-			getContador(indicadoresTipoDois);
-			getContador(indicadoresTipoTres);
-			getContador(indicadoresTipoQuatro);	
-			}
+	   url: callUrl
 	});
 }
+ 
+/** Carrega os indicadores */
+function callIndicadores() {
+	var fbOn = false;
+	var call = callByAjax(urlRecords);		   
+	call.success(function (data) {
+		/**valida se ha dados no fb**/
+		if(data != null && data.length > 0){
+			fbOn = true;
+			buildIndicadores(data);
+		}
+	}).always(function() {
+	  if(!fbOn){
+	  	callIndicadoresApi();
+	  }
+	});
+}
+
+/** Carrega os indicadores API*/
+function callIndicadoresApi() {
+	var call = callByAjax(urlGeneric);
+	call.success(function (data) {
+		buildIndicadores(data.records);
+	});
+}
+
+/**Arranca os contadores*/
+function buildIndicadores(records){
+	var dataSetSize = records.length;
+	/**Separa os indicadores por tipo*/
+	for (var i = 0; i < dataSetSize; i++) {
+		var indicador = records[i];
+		var tipoIndicador = indicador.fields.tipo;
+		if(tipoIndicador === 1){
+			indicadoresTipoUm.push(indicador);
+		} else if(tipoIndicador === 2){
+			indicadoresTipoDois.push(indicador);
+		} else if(tipoIndicador === 3){
+			indicadoresTipoTres.push(indicador);
+		} else if(tipoIndicador === 4){
+			indicadoresTipoQuatro.push(indicador);
+		}
+	}
+	/**Arranca os contadores por tipo*/	
+	getContador(indicadoresTipoUm);
+	getContador(indicadoresTipoDois);
+	getContador(indicadoresTipoTres);
+	getContador(indicadoresTipoQuatro);
+}
+
+
 /**
  * Retorna um numero entre 0 (inclusive) e max (inclusive)
  */
@@ -194,6 +234,14 @@ function startCounter(valorBase,incrementoDiario,dataValorBase,nomeIndicador,ind
 	}
 }
 
+/**Inicia os contadores dinamicos*/
+function startIndicadores(){
+	/**Inicializa o fb*/
+	firebase.initializeApp(config);	
+	database = firebase.database();
+	/**arranca com os contadores*/
+	callIndicadores();
+}
 function initCounters(){
-	loadIndicadores();
+	startIndicadores();
 }
