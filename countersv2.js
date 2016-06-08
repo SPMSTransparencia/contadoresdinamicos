@@ -38,11 +38,11 @@ function callIndicadores() {
 	    	callIndicadoresApi();
 	    }
 	});
-	callIndicadoresFb(result);
+	result.resolve(callIndicadoresFb());
 }
 
 /** Carrega os indicadores do FB */
-function callIndicadoresFb(result) {
+function callIndicadoresFb() {
 	var fbOn = false;
 	var call = callByAjax(urlRecords);		   
 	call.success(function (data) {
@@ -55,7 +55,7 @@ function callIndicadoresFb(result) {
 			buildIndicadores(data);
 		}
 	});
-	result.resolve(fbOn);
+	return fbOn;
 }
 
 /** Carrega os indicadores API*/
