@@ -32,13 +32,13 @@ function callByAjax(callUrl) {
  
 /** Carrega os indicadores */
 function callIndicadores() {
-	var result = $.Deferred();
-	$.when(result).done(function(fbOn){
-	    if(!fbOn){
+	var condition = $.Deferred();
+	$.when(condition).done(function(result){
+	    if(!result){
 	    	callIndicadoresApi();
 	    }
 	});
-	result.resolve(callIndicadoresFb());
+	condition.resolve(callIndicadoresFb());
 }
 
 /** Carrega os indicadores do FB */
