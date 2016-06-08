@@ -34,7 +34,7 @@ function callByAjax(callUrl) {
 function callIndicadores() {
 	var fbOn = false;
 	$.when(callIndicadoresFb(fbOn)).done(function(data){
-	    if(!fbOn){
+	    if(!fbOn && data == null){
 	    	callIndicadoresApi();
 	    }
 	});				
