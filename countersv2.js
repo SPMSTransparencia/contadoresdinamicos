@@ -32,16 +32,16 @@ function callByAjax(callUrl) {
  
 /** Carrega os indicadores */
 function callIndicadores() {
-	var fbOn = false;
-	$.when(callIndicadoresFb(fbOn)).done(function(data){
-	    if(!fbOn && data == null){
+	$.when(callIndicadoresFb()).done(function(fbOn){
+	    if(!fbOn){
 	    	callIndicadoresApi();
 	    }
 	});				
 }
 
 /** Carrega os indicadores do FB */
-function callIndicadoresFb(fbOn) {
+function callIndicadoresFb() {
+	var fbOn = false;
 	var call = callByAjax(urlRecords);		   
 	call.success(function (data) {
 		/**valida se ha dados no fb**/
@@ -53,6 +53,7 @@ function callIndicadoresFb(fbOn) {
 			buildIndicadores(data);
 		}
 	});
+	return fbOn;
 }
 
 /** Carrega os indicadores API*/
