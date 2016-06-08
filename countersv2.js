@@ -44,7 +44,7 @@ function callIndicadores() {
 	  if(!fbOn){
 	  	callIndicadoresApi();
 	  }
-	};
+	});
 }
 
 /** Carrega os indicadores API*/
