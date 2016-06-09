@@ -1,7 +1,6 @@
 /**Variaveis*/
 var urlGeneric = 'https://transparencia.sns.gov.pt/api/records/1.0/search/?apikey=12ff0012d23b6a9210528d5fbbdab95f5680ec5ecf894f05c40e42b1&dataset=contadores-dinamicos';
 var urlRecords = 'https://project-1077097263233676948.firebaseio.com/indicadores/records.json?auth=nNK0N1EfATzvaLAaWnWC3P2k2kn3GpIM5uXdP1eF';
-var urlDate = 'https://project-1077097263233676948.firebaseio.com/indicadores/parameters/dateRefresh.json?auth=nNK0N1EfATzvaLAaWnWC3P2k2kn3GpIM5uXdP1eF';
 var indicadoresTipoUm=[];
 var indicadoresTipoDois=[];
 var indicadoresTipoTres=[];
@@ -12,13 +11,7 @@ var idUrl = '#url';
 var idLabel = '#lbl';
 var keyIndicadores = 'indicadores';
 var milisegundosPorDia  = 86400000;
-var database;
-var config = {
-	apiKey: "AIzaSyBAseiwal8ikbDrofBMh-I-BpYp57jOZ88",
-	authDomain: "project-1077097263233676948.firebaseapp.com",
-	databaseURL: "https://project-1077097263233676948.firebaseio.com",
-	storageBucket: "",
-  };
+
 
 /**Executa o pedidos ajax a um url*/
 function callByAjax(callUrl) {
@@ -234,14 +227,6 @@ function startCounter(valorBase,incrementoDiario,dataValorBase,nomeIndicador,ind
 	}
 }
 
-/**Inicia os contadores dinamicos*/
-function startIndicadores(){
-	/**Inicializa o fb*/
-	firebase.initializeApp(config);	
-	database = firebase.database();
-	/**arranca com os contadores*/
-	callIndicadores();
-}
 function initCounters(){
-	startIndicadores();
+	callIndicadores();
 }
