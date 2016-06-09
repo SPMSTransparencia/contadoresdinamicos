@@ -243,5 +243,6 @@ function startIndicadores(){
 	callIndicadores();
 }
 function initCounters(){
-	startIndicadores();
+	//startIndicadores();
+	callIndicadores();
 }
